@@ -1,14 +1,14 @@
-import { Letter } from "@/types/letter"
+import { Word } from "@/types/word"
 
 // map variable
-const cachedLetter = new Map<string, Letter>();
+const cachedWord = new Map<Word>();
 
-// setLetterInCache
-export function setLetterInCache(url: string, letter: Letter){
-    cachedLetter.set(url, letter)
+// setWordInCache
+export function setWordInCache(word: Word){
+    cachedWord.set(word)
 }
 
-// getLetterFromCache
-export function getLetterFromCache(url: string) {
-    return cachedLetter.get(url)
+// getWordFromCache
+export function getWordFromCache(url: string) {
+    return cachedWord.get(url)
 }
