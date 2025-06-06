@@ -1,7 +1,8 @@
 export type Letter = {
-    name: string, // limit to one character
-    inWord: boolean,
-    positions: number[]
+    name: string; // limit to one character
+    guessed: boolean;
+    inWord: boolean;
+    positions: number[];
 }
 
 // Make an array, alphabet, of all the letters to

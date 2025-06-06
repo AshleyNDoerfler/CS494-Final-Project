@@ -1,9 +1,9 @@
 import { Letter } from './letter'
 
 export type Word = {
-    word: string,
-    length: number,
-    numOfGuessedLetters: number
+    word: string;
+    revealed: boolean[];
+    numOfGuessedLetters: number;
 }
 
 // IDK if I need this one
