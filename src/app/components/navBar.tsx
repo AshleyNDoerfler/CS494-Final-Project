@@ -25,7 +25,7 @@ export default function NavBar() {
                 noWrap
                 sx={{
                 mr: 2,
-                fontFamily: 'monospace',
+                fontFamily: '-apple-system',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 
@@ -41,7 +41,7 @@ export default function NavBar() {
                 noWrap
                 sx={{
                 mr: 2,
-                fontFamily: 'monospace',
+                fontFamily: '-apple-system',
                 fontWeight: 700,
                 letterSpacing: '.3rem',
                 }}

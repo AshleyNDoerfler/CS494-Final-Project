@@ -1,14 +1,19 @@
-import { Word } from "@/types/word"
+import { Word } from "@/types/word";
 
-// map variable
-const cachedWord = new Map<Word>();
+const cachedWords = new Map<string, Word>();
 
-// setWordInCache
-export function setWordInCache(word: Word){
-    cachedWord.set(word)
+export function setWordInCache(word: Word, key: string = word.word) {
+    cachedWords.set(key, word);
 }
 
-// getWordFromCache
-export function getWordFromCache(url: string) {
-    return cachedWord.get(url)
+export function getWordFromCache(key: string): Word | undefined {
+    return cachedWords.get(key);
 }
+
+// export function getAllCachedWords(): Word[] {
+//     return Array.from(cachedWords.values());
+// }
+
+// export function clearCache() {
+//     cachedWords.clear();
+// }
