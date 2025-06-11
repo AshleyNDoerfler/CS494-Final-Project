@@ -10,10 +10,3 @@ export function getWordFromCache(key: string): Word | undefined {
     return cachedWords.get(key);
 }
 
-// export function getAllCachedWords(): Word[] {
-//     return Array.from(cachedWords.values());
-// }
-
-// export function clearCache() {
-//     cachedWords.clear();
-// }

@@ -8,7 +8,6 @@ function transformToWordObject(raw: string): Word {
     return {
         word: raw,
         revealed: Array(raw.length).fill(false),
-        numOfGuessedLetters: 0,
     };
   }
   

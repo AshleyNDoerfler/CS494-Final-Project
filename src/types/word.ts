@@ -8,6 +8,4 @@ export type Letter = {
 export type Word = {
     word: string;
     revealed: boolean[];
-    numOfGuessedLetters: number;
-    guessedLetters: string[];
 };

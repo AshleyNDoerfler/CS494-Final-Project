@@ -1,11 +1,15 @@
 'use client'
 
+//////// Please Edit Me ////////
+
 import { Grid, Stack, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { getLetterFromCache } from '@/services/letterCache';
 
-const StyledItem = styled(Paper)<{ guessed?: boolean; inWord?: boolean }>(({ theme, guessed, inWord }) => {
-    let backgroundColor = '#e0e0e0'; // default: light gray
+const StyledItem = styled(Paper, {
+    shouldForwardProp: (prop) => prop !== 'guessed' && prop !== 'inWord'
+})<{ guessed?: boolean; inWord?: boolean }>(({ theme, guessed, inWord }) => {
+    let backgroundColor = '#e0e0e0';
     let color = (theme.vars ?? theme).palette.text.primary;
 
     if (guessed) {

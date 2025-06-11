@@ -1,8 +1,11 @@
-import { useState } from "react";
+'use client'
+
+import { useState, useEffect } from "react";
 import WrongLetterBoard from "./guessedWrongLetters"
-import GuessLetters from "./guessLetter"
-import { Box, Grid, Paper } from '@mui/material'
+import { Box, Grid, Paper, Button, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles';
+import { Letter, Word } from '@/types/word';
+import { setWordInCache, getWordFromCache } from "@/services/wordCache";
 
 // https://mui.com/material-ui/react-grid/
 const Item = styled(Paper)(({ theme }) => ({
@@ -12,17 +15,74 @@ const Item = styled(Paper)(({ theme }) => ({
     textAlign: 'center',
     color: (theme.vars ?? theme).palette.text.secondary,
     ...theme.applyStyles('dark', {
-      backgroundColor: '#1A2027',
+        backgroundColor: '#1A2027',
     }),
   }));
 
-export default function Hangman() {
-    const [numOfWrongGuesses, setNumOfWrongGuesses] = useState<number>(0)
+type HangmanProps = {
+    initialWord: Word;
+};
 
-    const handleGuess = (letter: string) => {
+export default function Hangman({ initialWord }: HangmanProps) {
+    const [numOfWrongGuesses, setNumOfWrongGuesses] = useState<number>(0)
+    const [letter, setLetter] = useState('');
+    const [error, setError] = useState(false);
+    const [word, setWord] = useState<Word>(initialWord);
+
+    const handleGuess = async (letter: string) => {
+        if (!word) {
+            return
+        }
         console.log(letter)
-        // Update state based on guess
+
+        letter = letter.toLowerCase()
+        const pos: number[] = []
+        let inWord = false
+        const newRevealed = [...word.revealed]
+
+        // Iterate over positions in word.word and check if the letter is in
+        for (let i = 0; i < word.word.length; i++) {
+            // If letter is in the word
+            if (word.word[i].toLowerCase() === letter) {
+                pos.push(i)
+                inWord = true
+                newRevealed[i] = true
+            }
+        }
+
+        if (!inWord) {
+            setNumOfWrongGuesses(prev => prev + 1)
+        }
+
+        const updatedWord: Word = {
+            ...word,
+            revealed: newRevealed
+        };
+        console.log(updatedWord)
+        setWord(updatedWord)
+        setWordInCache(updatedWord, "active")
+
+        // Set in cache to name: letter, guessed: true, inWord: inWord, positions: pos
+        const letterObject: Letter = {
+            name: letter,
+            guessed: true,
+            inWord,
+            positions: pos,
+        }
+        console.log(letterObject)
+        await fetch('/api/letterCache', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ letter: letterObject }),
+        })
+        setLetter('');
     }
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        setLetter(value);
+        setError(value.length !== 1 || !/^[a-zA-Z]$/.test(value)); // Only a-z or A-Z allowed
+      };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -30,16 +90,49 @@ export default function Hangman() {
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
                         {/* Photos */}
+                        <img
+                            src={`hangman${numOfWrongGuesses}.JPG`}
+                            alt={"Hangman Image"}
+                            width={250}
+                            height={250}
+                        />
+                    </Item>
+                    <Item>
                         {/* Reveal word */}
                     </Item>
                 </Grid>
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
-                        <GuessLetters onGuess={handleGuess} />
+                        <WrongLetterBoard />
                     </Item>
                 </Grid>
             </Grid>
-
+            <Grid>
+                <Item>
+                    {/* Make a guess */}
+                    <Box display="flex" gap={2} alignItems="center">
+                        <TextField
+                            id="letter-input"
+                            label="Letter"
+                            value={letter}
+                            onChange={handleChange}
+                            error={error}
+                            helperText={error ? "Please enter a single letter (A-Z)." : ""}
+                            inputProps={{
+                                maxLength: 1,
+                                inputMode: "text"
+                            }}
+                        />
+                        <Button
+                            variant="contained"
+                            onClick={() => handleGuess(letter)}
+                            disabled={error || letter.length !== 1}
+                        >
+                            Guess
+                        </Button>
+                    </Box>
+                </Item>
+            </Grid>
         </Box>
     )
 }
