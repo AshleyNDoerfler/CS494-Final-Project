@@ -6,6 +6,7 @@ import { Box, Grid, Paper, Button, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { Letter, Word } from '@/types/word';
 import { setWordInCache, getWordFromCache } from "@/services/wordCache";
+import WordReveal from "./revealWord"
 
 // https://mui.com/material-ui/react-grid/
 const Item = styled(Paper)(({ theme }) => ({
@@ -52,6 +53,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
 
         if (!inWord) {
             setNumOfWrongGuesses(prev => prev + 1)
+            // Add lose conditions
         }
 
         const updatedWord: Word = {
@@ -76,6 +78,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
             body: JSON.stringify({ letter: letterObject }),
         })
         setLetter('');
+        // Add win conditions
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +101,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
                         />
                     </Item>
                     <Item>
-                        {/* Reveal word */}
+                        <WordReveal word={word}/>
                     </Item>
                 </Grid>
                 <Grid size={{ xs: 6, lg: 3 }}>
