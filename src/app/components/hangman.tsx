@@ -29,6 +29,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
     const [letter, setLetter] = useState('');
     const [error, setError] = useState(false);
     const [word, setWord] = useState<Word>(initialWord);
+    const [wrongLetters, setWrongLetters] = useState<string[] | null>(null)
 
     const handleGuess = async (letter: string) => {
         if (!word) {
@@ -54,6 +55,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
         if (!inWord) {
             setNumOfWrongGuesses(prev => prev + 1)
             // Add lose conditions
+            setWrongLetters((prev) => prev ? [...prev, letter.toUpperCase()] : [letter.toUpperCase()]);
         }
 
         const updatedWord: Word = {
@@ -106,7 +108,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
                 </Grid>
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
-                        <WrongLetterBoard />
+                        <WrongLetterBoard wrongLetters={wrongLetters}/>
                     </Item>
                 </Grid>
             </Grid>
