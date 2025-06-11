@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import WrongLetterBoard from "./guessedWrongLetters"
-import { Box, Grid, Paper, Button, TextField } from '@mui/material'
+import { Box, Grid, Paper, Button, TextField, CardMedia } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { Letter, Word } from '@/types/word';
 import { setWordInCache } from "@/services/wordCache";
@@ -111,11 +111,11 @@ export default function Hangman({ initialWord }: HangmanProps) {
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
                         {/* Photos */}
-                        <img
-                            src={`/hangman${numOfWrongGuesses}.JPG`}
-                            alt="Hangman Image"
-                            width={250}
+                        <CardMedia
+                            component="img"
                             height={250}
+                            image={`/hangman${numOfWrongGuesses}.JPG`}
+                            alt="Hangman Image"
                         />
                     </Item>
                     <Item>
