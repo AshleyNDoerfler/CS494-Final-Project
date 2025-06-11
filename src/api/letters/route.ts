@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
         setLetterInCache(letter);
 
         return NextResponse.json({ success: true, letter });
-    } catch (_) {
+    } catch {
         return NextResponse.json({ error: "Failed to set letter in cache" }, { status: 500 });
     }
 }
