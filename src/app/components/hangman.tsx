@@ -1,11 +1,12 @@
 'use client'
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from 'next/navigation';
 import WrongLetterBoard from "./guessedWrongLetters"
 import { Box, Grid, Paper, Button, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { Letter, Word } from '@/types/word';
-import { setWordInCache, getWordFromCache } from "@/services/wordCache";
+import { setWordInCache } from "@/services/wordCache";
 import WordReveal from "./revealWord"
 
 // https://mui.com/material-ui/react-grid/
@@ -25,6 +26,7 @@ type HangmanProps = {
 };
 
 export default function Hangman({ initialWord }: HangmanProps) {
+    const router = useRouter();
     const [numOfWrongGuesses, setNumOfWrongGuesses] = useState<number>(0)
     const [letter, setLetter] = useState('');
     const [error, setError] = useState(false);
@@ -52,12 +54,6 @@ export default function Hangman({ initialWord }: HangmanProps) {
             }
         }
 
-        if (!inWord) {
-            setNumOfWrongGuesses(prev => prev + 1)
-            // Add lose conditions
-            setWrongLetters((prev) => prev ? [...prev, letter.toUpperCase()] : [letter.toUpperCase()]);
-        }
-
         const updatedWord: Word = {
             ...word,
             revealed: newRevealed
@@ -80,7 +76,27 @@ export default function Hangman({ initialWord }: HangmanProps) {
             body: JSON.stringify({ letter: letterObject }),
         })
         setLetter('');
-        // Add win conditions
+
+        console.log(inWord, " : ", letter, ", num wrong: ", numOfWrongGuesses)
+        if (!inWord) {
+            const newWrongGuesses = numOfWrongGuesses + 1;
+            setNumOfWrongGuesses(newWrongGuesses)
+            setWrongLetters(prev => prev ? [...prev, letter.toUpperCase()] : [letter.toUpperCase()]);
+            console.log(numOfWrongGuesses)
+            if (numOfWrongGuesses + 2 >= 7) {
+                console.log("Lose") 
+                router.push('/gameover'); 
+                return
+            }
+        } else {
+            const revealedCount = newRevealed.filter(val => val).length;
+            if(revealedCount == word.word.length){
+                console.log("Winner!")
+                router.push('/winner'); // Winner works
+                return
+            }
+        }
+        
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
