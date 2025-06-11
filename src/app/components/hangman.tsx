@@ -8,6 +8,7 @@ import { styled } from '@mui/material/styles';
 import { Letter, Word } from '@/types/word';
 import { setWordInCache } from "@/services/wordCache";
 import WordReveal from "./revealWord"
+import Image from 'next/image';
 
 // https://mui.com/material-ui/react-grid/
 const Item = styled(Paper)(({ theme }) => ({
@@ -111,9 +112,9 @@ export default function Hangman({ initialWord }: HangmanProps) {
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
                         {/* Photos */}
-                        <img
-                            src={`hangman${numOfWrongGuesses}.JPG`}
-                            alt={"Hangman Image"}
+                        <Image
+                            src={`/hangman${numOfWrongGuesses}.JPG`}
+                            alt="Hangman Image"
                             width={250}
                             height={250}
                         />

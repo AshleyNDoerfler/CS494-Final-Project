@@ -34,7 +34,7 @@ export default function TitleScreen() {
                 />
                 <CardContent>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                        "Hangman is a guessing game for two or more players. One player thinks of a word, phrase, or sentence and the other(s) tries to guess it by suggesting letters or numbers within a certain number of guesses. Originally a paper-and-pencil game, there are now electronic versions."
+                        &quot;Hangman is a guessing game for two or more players. One player thinks of a word, phrase, or sentence and the other(s) tries to guess it by suggesting letters or numbers within a certain number of guesses. Originally a paper-and-pencil game, there are now electronic versions.&quot;
                     </Typography>
                     <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                         <MuiLink component={Link} href='https://en.wikipedia.org/wiki/Hangman_(game)' target="_blank" rel="noopener noreferrer">

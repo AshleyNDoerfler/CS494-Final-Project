@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
             setWordInCache(words[0], "active");
         }
         return NextResponse.json({ words });
-    } catch (err) {
+    } catch (_) {
         return NextResponse.json({ error: "Failed to fetch words" }, { status: 500 });
     }
 }
