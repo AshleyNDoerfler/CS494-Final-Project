@@ -84,7 +84,7 @@ export default function Hangman({ initialWord }: HangmanProps) {
             setNumOfWrongGuesses(newWrongGuesses)
             setWrongLetters(prev => prev ? [...prev, letter.toUpperCase()] : [letter.toUpperCase()]);
             console.log(numOfWrongGuesses)
-            if (numOfWrongGuesses + 2 >= 7) {
+            if (numOfWrongGuesses + 1 >= 6) {
                 console.log("Lose") 
                 router.push('/gameover'); 
                 return
