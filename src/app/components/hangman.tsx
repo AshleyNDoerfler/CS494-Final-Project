@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from 'next/navigation';
 import WrongLetterBoard from "./guessedWrongLetters"
-import { Box, Grid, Paper, Button, TextField, CardMedia } from '@mui/material'
+import { Box, Grid, Paper, Button, TextField } from '@mui/material'
 import { styled } from '@mui/material/styles';
 import { Letter, Word } from '@/types/word';
 import { setWordInCache } from "@/services/wordCache";
 import WordReveal from "./revealWord"
+import Image from 'next/image';
 
 // https://mui.com/material-ui/react-grid/
 const Item = styled(Paper)(({ theme }) => ({
@@ -111,11 +112,11 @@ export default function Hangman({ initialWord }: HangmanProps) {
                 <Grid size={{ xs: 6, lg: 3 }}>
                     <Item>
                         {/* Photos */}
-                        <CardMedia
-                            component="img"
-                            height={250}
-                            image={`/hangman${numOfWrongGuesses}.JPG`}
+                        <Image
+                            src={`/hangman${numOfWrongGuesses}.JPG`}
                             alt="Hangman Image"
+                            width={250}
+                            height={250}
                         />
                     </Item>
                     <Item>
